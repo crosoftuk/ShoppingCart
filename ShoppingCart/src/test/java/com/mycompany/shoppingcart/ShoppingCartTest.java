@@ -68,5 +68,58 @@ public class ShoppingCartTest {
 
         assertEquals(0.85f, basket.getTotal(), 0.0f);
     }
+
     
+   @Test
+    public void Add2Apples()
+    {
+        System.out.println("Add2Apples");
+        ShoppingCart basket = new ShoppingCart();
+        basket.addItemsToBasket(new String[]{"Apple", "Apple"});
+        basket.checkout();
+
+        assertEquals(0.60f, basket.getTotal(), 0.0f);
+    }
+
+    @Test
+    public void Add2Oranges()
+    {
+        System.out.println("Add2Oranges");
+        ShoppingCart basket = new ShoppingCart();
+        basket.addItemsToBasket(new String[]{"Orange", "Orange"});
+        basket.checkout();
+
+        assertEquals(0.50f, basket.getTotal(), 0.0f);
+    }
+    @Test
+    public void Add3Oranges()
+    {
+        System.out.println("Add3Oranges");
+        ShoppingCart basket = new ShoppingCart();
+        basket.addItemsToBasket(new String[]{"Orange", "Orange", "Orange"});
+        basket.checkout();
+
+        assertEquals(0.50f, basket.getTotal(), 0.0f);
+    }
+    @Test
+    public void Add4Oranges()
+    {
+        System.out.println("Add3Oranges");
+        ShoppingCart basket = new ShoppingCart();
+        basket.addItemsToBasket(new String[]{"Orange", "Orange", "Orange", "Orange"});
+        basket.checkout();
+
+        assertEquals(0.75f, basket.getTotal(), 0.0f);
+    }
+
+    @Test
+    public void Add3Oranges2Apples()
+    {
+        System.out.println("Add3Oranges2Apples");
+        ShoppingCart basket = new ShoppingCart();
+        basket.addItemsToBasket(new String[]{"Apple", "Orange", "Orange", "Orange", "Apple"});
+        basket.checkout();
+
+        assertEquals(1.10f, basket.getTotal(), 0.0f);
+    }
 }

@@ -6,7 +6,6 @@
 package com.mycompany.shoppingcart;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  *
@@ -14,8 +13,10 @@ import java.util.Arrays;
  */
 public class ShoppingCart {
 
-    private float total = 0.0f;
     private ArrayList<String> basketContents = new ArrayList<>();
+    private float subTotal = 0.0f;
+    private float discounts = 0.0f;
+    private float total = 0.0f;
 
     /**
      * @param args the command line arguments
@@ -23,8 +24,9 @@ public class ShoppingCart {
     public static void main(String[] args) {
         ShoppingCart basket = new ShoppingCart();
         
-        basket.addItemsToBasket(new String[]{"Apple","Orange"});
+        basket.addItemsToBasket(new String[]{"Apple","Orange", "Orange", "Orange"});
         basket.checkout();
+        basket.printTotal();
     }
     
     /**
@@ -33,7 +35,16 @@ public class ShoppingCart {
      */
     public void addItemsToBasket(String[] items)
     {
-        basketContents.addAll(Arrays.asList(items));
+        for(String item : items)
+        {
+            addItem(item);
+        }
+    }
+    
+    public void addItem(String item)
+    {
+        basketContents.add(item);
+        totaliseBasket();
     }
     
     /**
@@ -57,22 +68,57 @@ public class ShoppingCart {
     }
  
     /**
-     * Totalise the cost of the basket contents
-     * @return cost in pounds
+     * calculate the basket Totals
      */
     public void totaliseBasket()
     {
-        total = 0.0f;
-        
+        subTotal = 0.0f;
+
         for(String item : this.basketContents)
         {
-            total += lookupItemCost(item);
+            subTotal += lookupItemCost(item);
         }
+        
     }
-    
+
+    // Buy one,get one free on Apples
+    // 3 for 2 on Oranges
+    public void applyDiscounts()
+    {
+        int appleCount = 0;
+        int orangeCount = 0;
+        float orangePrice = lookupItemCost("Orange");
+        float applePrice = lookupItemCost("Apple");
+        
+        for(String item: this.basketContents)
+        {
+            if(item.equals("Apple"))
+            {
+                appleCount++;
+            }
+            else if(item.equals("Orange"))
+            {
+                orangeCount ++;
+            }
+        }
+        
+        discounts -= (appleCount/2) * applePrice;
+        discounts -= (orangeCount/3) * orangePrice;
+        
+        total = subTotal + discounts;
+    }
+
     public void checkout()
     {
         totaliseBasket();
+        applyDiscounts();
+        printTotal();
+    }
+    
+    public void printTotal()
+    {
+        System.out.println("Subtotal cost of basket: £" + subTotal);
+        System.out.println("Discounts: £" + discounts);
         System.out.println(String.format("Total cost of basket: £%.2f", getTotal()));
     }
 
